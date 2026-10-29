@@ -1,0 +1,1677 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071950">
+
+  <title>BrightFuture | Portal do Estudante</title>
+
+  <link
+    rel="icon"
+    href="assets/logos/favicon.png"
+    type="image/png"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+  >
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ==========================================
+       01. LOGIN DEMONSTRATIVO
+       ========================================== -->
+
+  <div class="login-page" id="loginPage">
+
+    <div class="login-shell login-split-v12">
+
+      <section
+        class="login-art bf-login-story"
+        aria-label="Apresentação da BrightFuture"
+      >
+
+        <div class="bf-login-brand">
+
+          <span class="bf-logo-plaque">
+            <img
+              src="assets/logos/login.png"
+              alt="BrightFuture — Educação e Tecnologia"
+              class="bf-login-logo"
+            >
+          </span>
+
+          <span class="bf-brand-caption">
+            PORTAL ACADÊMICO DIGITAL
+          </span>
+
+        </div>
+
+        <div class="bf-login-message">
+
+          <span class="bf-kicker">
+            EDUCAÇÃO QUE EVOLUI COM VOCÊ
+          </span>
+
+          <h1>
+            Aprenda.
+            <br>
+            <span>Conquiste.</span>
+            <br>
+            Evolua.
+          </h1>
+
+          <p>
+            Suas disciplinas, notas, atividades e
+            conversas acadêmicas. Tudo em um só
+            lugar, no seu ritmo.
+          </p>
+
+          <div class="bf-story-mark" aria-hidden="true"></div>
+
+        </div>
+
+        <div class="bf-story-footer">
+          BrightFuture · Sua jornada acadêmica em um só lugar.
+        </div>
+
+      </section>
+
+      <section
+        class="bf-login-entry"
+        aria-label="Acesso ao portal"
+      >
+
+        <div class="bf-login-entry-inner">
+
+          <span class="bf-entry-eyebrow">
+            ACESSO DO ESTUDANTE
+          </span>
+
+          <h2>
+            Bem-vindo à
+            <br>
+            <span>BrightFuture.</span>
+          </h2>
+
+          <p class="bf-entry-subtitle">
+            Entre para acompanhar sua jornada universitária.
+          </p>
+
+          <div class="bf-entry-divider"></div>
+
+          <h3>Acessar minha conta</h3>
+
+          <p class="bf-entry-help">
+            Utilize as credenciais demonstrativas
+            para conhecer o portal.
+          </p>
+
+          <form
+            id="loginForm"
+            class="login-form bf-login-fields"
+          >
+
+            <label
+              for="matricula"
+              class="form-label"
+            >
+              Matrícula
+            </label>
+
+            <input
+              type="text"
+              id="matricula"
+              class="form-control"
+              placeholder="Digite sua matrícula"
+              inputmode="numeric"
+              autocomplete="off"
+              value="202600123"
+              required
+            >
+
+            <label
+              for="senha"
+              class="form-label"
+            >
+              Senha
+            </label>
+
+            <input
+              type="password"
+              id="senha"
+              class="form-control"
+              placeholder="Digite sua senha"
+              autocomplete="off"
+              value="brightfuture"
+              required
+            >
+
+            <button
+              type="submit"
+              class="bf-login-submit"
+            >
+              Entrar no portal
+              <i class="bi bi-arrow-right" aria-hidden="true"></i>
+            </button>
+
+            <p
+              id="loginError"
+              class="text-danger small mt-3 mb-0 d-none"
+              role="alert"
+            >
+              Confira a matrícula e a senha demonstrativas.
+            </p>
+
+          </form>
+
+          <p class="bf-demo-hint">
+            Demonstração:
+            <strong>202600123</strong>
+            /
+            <strong>brightfuture</strong>
+          </p>
+
+          <p class="bf-notice">
+            Ambiente acadêmico fictício.
+            Não utilize credenciais reais.
+          </p>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </div>
+
+
+  <!-- ==========================================
+       02. APLICAÇÃO PRINCIPAL
+       ========================================== -->
+
+  <div id="app" class="d-none">
+
+    <!-- MENU LATERAL DESKTOP -->
+
+    <aside class="sidebar">
+
+      <div class="brand brand-with-image ps-2">
+
+        <img
+          src="assets/logos/internal.png"
+          alt="BrightFuture — Identidade BF"
+          class="brand-logo-internal"
+        >
+
+      </div>
+
+      <div
+        class="smallcaps ps-3 mt-4"
+        style="color: #a9b0ce"
+      >
+        MENU ACADÊMICO
+      </div>
+
+      <nav
+        id="sideNav"
+        class="side-links"
+        aria-label="Menu acadêmico"
+      ></nav>
+
+      <div class="mt-auto px-2">
+
+        <div
+          class="pt-3"
+          style="border-top: 1px solid #3c405e"
+        >
+
+          <div class="d-flex gap-2 align-items-center">
+
+            <span class="avatar">
+              <i class="bi bi-person-fill"></i>
+            </span>
+
+            <div>
+
+              <div class="fw-bold small">
+                Aluno demonstrativo
+              </div>
+
+              <small style="color: #b6bbd6">
+                Sistemas de Informação
+              </small>
+
+            </div>
+
+          </div>
+
+          <button
+            class="nav-item-bf mt-3"
+            data-logout
+          >
+            <i class="bi bi-box-arrow-right"></i>
+            Sair da demonstração
+          </button>
+
+        </div>
+
+      </div>
+
+    </aside>
+
+
+    <!-- MENU MOBILE -->
+
+    <div
+      id="mobileMenuOverlay"
+      class="mobile-menu-overlay d-none"
+    >
+
+      <div class="mobile-menu">
+
+        <div
+          class="d-flex justify-content-between align-items-center mb-4"
+        >
+
+          <strong class="brand brand-with-image">
+
+            <img
+              src="assets/logos/internal.png"
+              alt="BrightFuture"
+              class="brand-logo-internal"
+            >
+
+          </strong>
+
+          <button
+            id="closeMobileMenu"
+            class="btn btn-sm btn-outline-light"
+            aria-label="Fechar menu"
+          >
+            <i class="bi bi-x-lg"></i>
+          </button>
+
+        </div>
+
+        <nav
+          id="mobileNav"
+          aria-label="Menu mobile"
+        ></nav>
+
+        <hr>
+
+        <button
+          class="nav-item-bf"
+          data-logout
+        >
+          <i class="bi bi-box-arrow-right"></i>
+          Sair
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- ========================================
+         03. ÁREA PRINCIPAL
+         TODAS AS TELAS FICAM DENTRO DE MAIN
+         ======================================== -->
+
+    <main class="main">
+
+      <!-- CABEÇALHO -->
+
+      <header class="topbar">
+
+        <div class="desktop-header">
+
+          <span class="smallcaps muted">
+            PORTAL DO ESTUDANTE
+          </span>
+
+        </div>
+
+        <div class="mobile-header brand brand-with-image">
+
+          <img
+            src="assets/logos/internal.png"
+            alt="BrightFuture"
+            class="brand-logo-internal"
+          >
+
+        </div>
+
+        <div class="d-flex align-items-center gap-3">
+
+          <span class="search-mini muted small">
+            <i class="bi bi-search me-2"></i>
+            Protótipo navegável
+          </span>
+
+          <button
+            class="btn position-relative"
+            data-go="comunicados"
+            title="Ver comunicados"
+          >
+            <i class="bi bi-bell fs-5"></i>
+
+            <span
+              id="bellDot"
+              class="position-absolute rounded-circle"
+              style="
+                width: 8px;
+                height: 8px;
+                top: 7px;
+                right: 7px;
+                background: #9a80ed;
+              "
+            ></span>
+
+          </button>
+
+          <span class="avatar d-none d-lg-grid">
+            <i class="bi bi-person-fill"></i>
+          </span>
+
+          <button
+            id="openMobileMenu"
+            class="btn d-lg-none"
+            aria-label="Abrir menu"
+          >
+            <i class="bi bi-list fs-4"></i>
+          </button>
+
+        </div>
+
+      </header>
+
+
+      <!-- ======================================
+           TELA 01 — DASHBOARD
+           ====================================== -->
+
+      <div
+        id="screen-inicio"
+        class="screen active"
+      >
+
+        <section class="hero mb-4">
+
+          <div
+            class="smallcaps mb-3"
+            style="color: var(--mint)"
+          >
+            SEMESTRE 2026.2 · DEMONSTRAÇÃO
+          </div>
+
+          <h1>
+            Olá, estudante!
+            <span style="color: var(--mint)">✦</span>
+          </h1>
+
+          <p
+            class="mb-0"
+            style="color: #ced1e8"
+          >
+            Seu semestre está acontecendo.
+            Veja o que merece sua atenção hoje.
+          </p>
+
+        </section>
+
+        <div
+          class="d-flex justify-content-between align-items-center mb-3"
+        >
+
+          <h2 class="section-title">
+            Suas prioridades
+          </h2>
+
+          <span
+            id="priorityCounter"
+            class="chip warning"
+          >
+            2 pendências
+          </span>
+
+        </div>
+
+        <div
+          id="homeDeadlineAlert"
+          class="bf-promo p-3 mb-3 d-flex gap-3 align-items-center"
+        >
+
+          <span class="bf-promo-icon">
+            <i class="bi bi-alarm"></i>
+          </span>
+
+          <div>
+            <strong>Alertas de prazos</strong>
+
+            <div class="small muted">
+              Acompanhe as próximas entregas e avaliações.
+            </div>
+          </div>
+
+        </div>
+
+        <div
+          id="homePriorities"
+          class="row g-3 mb-3"
+        ></div>
+
+        <div
+          class="item-card mb-4 d-flex align-items-center justify-content-between gap-3"
+        >
+
+          <div
+            id="homeRequestInfo"
+            class="small"
+          ></div>
+
+          <button
+            class="detail-link"
+            data-go="solicitacoes"
+          >
+            Acessar
+            <i class="bi bi-arrow-right"></i>
+          </button>
+
+        </div>
+
+        <div class="row g-4">
+
+          <div class="col-lg-7">
+
+            <div
+              class="d-flex justify-content-between align-items-center mb-3"
+            >
+
+              <h2 class="section-title">
+                Comunicados recentes
+              </h2>
+
+              <button
+                class="detail-link"
+                data-go="comunicados"
+              >
+                Ver todos
+                <i class="bi bi-arrow-right"></i>
+              </button>
+
+            </div>
+
+            <div id="homeNotices"></div>
+
+          </div>
+
+          <div class="col-lg-5">
+
+            <h2 class="section-title mb-3">
+              Seu desempenho
+            </h2>
+
+            <div class="row g-3">
+
+              <div class="col-6">
+
+                <div class="card-kpi">
+
+                  <i class="bi bi-graph-up-arrow muted"></i>
+
+                  <div
+                    class="value"
+                    id="homeMedia"
+                  >
+                    —
+                  </div>
+
+                  <div class="muted small">
+                    Média geral
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="col-6">
+
+                <div class="card-kpi">
+
+                  <i class="bi bi-calendar-check muted"></i>
+
+                  <div class="value">
+                    93%
+                  </div>
+
+                  <div class="muted small">
+                    Frequência
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="col-12">
+
+                <div
+                  class="app-card d-flex justify-content-between align-items-center"
+                >
+
+                  <div>
+                    <div class="fw-bold">
+                      5 disciplinas
+                    </div>
+
+                    <div class="muted small">
+                      Seu semestre atual
+                    </div>
+                  </div>
+
+                  <button
+                    class="detail-link"
+                    data-go="disciplinas"
+                  >
+                    Explorar
+                    <i class="bi bi-arrow-right"></i>
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ======================================
+           TELA 02 — DISCIPLINAS
+           ====================================== -->
+
+      <div
+        id="screen-disciplinas"
+        class="screen"
+      >
+
+        <div class="mb-4">
+
+          <span class="smallcaps muted">
+            VIDA ACADÊMICA
+          </span>
+
+          <h1 class="mt-2">
+            Minhas disciplinas<span style="color: #8576d9">.</span>
+          </h1>
+
+          <p class="muted">
+            Consulte matérias, horários,
+            materiais de apoio e professores.
+          </p>
+
+        </div>
+
+        <div class="app-card mb-3">
+
+          <div
+            class="d-flex flex-wrap gap-3 align-items-center justify-content-between"
+          >
+
+            <div>
+
+              <h2 class="section-title mb-1">
+                Minha grade semanal
+              </h2>
+
+              <p class="small muted mb-0">
+                Aulas do período demonstrativo
+              </p>
+
+            </div>
+
+            <span class="chip">
+              <i class="bi bi-calendar-week me-1"></i>
+              5 disciplinas
+            </span>
+
+          </div>
+
+          <div
+            id="scheduleBoard"
+            class="bf-schedule mt-3"
+          >
+
+            <div>
+              <strong>Segunda</strong>
+              <br>
+              <small>19h · Front-End</small>
+            </div>
+
+            <div>
+              <strong>Terça</strong>
+              <br>
+              <small>19h · Engenharia SW</small>
+            </div>
+
+            <div>
+              <strong>Quarta</strong>
+              <br>
+              <small>20h · Banco de Dados</small>
+            </div>
+
+            <div>
+              <strong>Quinta</strong>
+              <br>
+              <small>19h · Algoritmos II</small>
+            </div>
+
+            <div>
+              <strong>Sexta</strong>
+              <br>
+              <small>19h · IHC</small>
+            </div>
+
+          </div>
+
+        </div>
+
+        <label
+          for="subjectSearch"
+          class="form-label fw-semibold"
+        >
+          Pesquisar disciplinas
+        </label>
+
+        <input
+          type="search"
+          id="subjectSearch"
+          class="bf-search mb-3"
+          placeholder="Disciplina ou professor..."
+          aria-label="Pesquisar disciplinas"
+        >
+
+        <div
+          id="subjectList"
+          class="row g-3"
+        ></div>
+
+        <div
+          id="subjectDetail"
+          class="app-card mt-4 d-none"
+        ></div>
+
+      </div>
+
+
+      <!-- ======================================
+           TELA 03 — DESEMPENHO
+           ====================================== -->
+
+      <div
+        id="screen-desempenho"
+        class="screen"
+      >
+
+        <div class="mb-4">
+
+          <span class="smallcaps muted">
+            ACOMPANHAMENTO
+          </span>
+
+          <h1 class="mt-2">
+            Meu desempenho<span style="color: #8576d9">.</span>
+          </h1>
+
+          <p class="muted">
+            Notas predefinidas para consulta.
+            Duas unidades por disciplina:
+            ME (2,0) + prova/projeto (8,0).
+          </p>
+
+        </div>
+
+        <div class="row g-3 mb-4">
+
+          <div class="col-sm-6">
+
+            <div
+              class="app-card"
+              style="background: #ded9ff"
+            >
+
+              <div class="smallcaps">
+                MÉDIA GERAL
+              </div>
+
+              <h2
+                id="gradeGlobal"
+                class="mt-3 mb-0"
+              >
+                —
+              </h2>
+
+            </div>
+
+          </div>
+
+          <div class="col-sm-6">
+
+            <div
+              class="app-card"
+              style="background: #d9fae9"
+            >
+
+              <div class="smallcaps">
+                FREQUÊNCIA DEMONSTRATIVA
+              </div>
+
+              <h2 class="mt-3 mb-0">
+                93%
+              </h2>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="app-card mb-3">
+
+          <label
+            for="gradeSubject"
+            class="fw-bold mb-2"
+          >
+            Escolha uma disciplina
+          </label>
+
+          <select
+            id="gradeSubject"
+            class="form-select"
+          ></select>
+
+        </div>
+
+        <div
+          id="gradeCards"
+          class="row g-3 mb-3"
+        ></div>
+
+        <div
+          id="frequencyCard"
+          class="app-card mb-3"
+        >
+
+          <div
+            class="d-flex justify-content-between align-items-center flex-wrap gap-2"
+          >
+
+            <div>
+
+              <div class="smallcaps muted mb-2">
+                FREQUÊNCIA · DISCIPLINA SELECIONADA
+              </div>
+
+              <h2 class="section-title">
+                Presenças e faltas
+              </h2>
+
+              <div class="muted small">
+                Consulte registros fictícios
+                e solicite revisão de uma ocorrência.
+              </div>
+
+            </div>
+
+            <button
+              id="gradeToRequests"
+              class="bf-btn light"
+              data-go="solicitacoes"
+            >
+              <i class="bi bi-journal-check me-1"></i>
+              Revisar falta
+            </button>
+
+          </div>
+
+          <div
+            id="frequencyPreview"
+            class="mt-3"
+          ></div>
+
+        </div>
+
+        <div class="app-card">
+
+          <div
+            class="d-flex align-items-center justify-content-between flex-wrap gap-3"
+          >
+
+            <div>
+
+              <h2 class="section-title mb-2">
+                Dúvida sobre sua nota?
+              </h2>
+
+              <p class="muted small mb-0">
+                Converse com o professor da disciplina
+                no chat demonstrativo.
+              </p>
+
+            </div>
+
+            <button
+              id="gradeToChat"
+              class="bf-btn light"
+            >
+              <i class="bi bi-chat-dots me-1"></i>
+              Conversar com professor
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ======================================
+           TELA 04 — ATIVIDADES
+           ====================================== -->
+
+      <div
+        id="screen-atividades"
+        class="screen"
+      >
+
+        <div class="mb-4">
+
+          <span class="smallcaps muted">
+            ORGANIZAÇÃO
+          </span>
+
+          <h1 class="mt-2">
+            Atividades<span style="color: #8576d9">.</span>
+          </h1>
+
+          <p class="muted">
+            Veja trabalhos, provas e atividades.
+            É possível concluir tarefas pessoais
+            nesta demonstração.
+          </p>
+
+        </div>
+
+        <div class="d-flex flex-wrap gap-2 mb-3">
+
+          <button
+            class="bf-btn light filter-task"
+            data-task-filter="todas"
+          >
+            Todas
+          </button>
+
+          <button
+            class="btn btn-outline-secondary filter-task"
+            data-task-filter="pendentes"
+          >
+            Pendentes
+          </button>
+
+          <button
+            class="btn btn-outline-secondary filter-task"
+            data-task-filter="concluidas"
+          >
+            Concluídas
+          </button>
+
+        </div>
+
+        <input
+          type="search"
+          id="taskSearch"
+          class="bf-search mb-3"
+          placeholder="Buscar atividade ou disciplina..."
+          aria-label="Pesquisar atividades"
+        >
+
+        <div
+          id="taskList"
+          class="row g-3"
+        ></div>
+
+      </div>
+
+
+      <!-- ======================================
+           TELA 05 — CALENDÁRIO
+           ====================================== -->
+
+      <div
+        id="screen-calendario"
+        class="screen"
+      >
+
+        <div class="mb-4">
+
+          <span class="smallcaps muted">
+            AGENDA
+          </span>
+
+          <h1 class="mt-2">
+            Calendário<span style="color: #8576d9">.</span>
+          </h1>
+
+          <p class="muted">
+            Acompanhe avaliações, entregas
+            e eventos acadêmicos.
+          </p>
+
+        </div>
+
+        <div class="row g-4">
+
+          <div class="col-lg-8">
+
+            <div class="app-card">
+
+              <div
+                class="d-flex justify-content-between align-items-center mb-4"
+              >
+
+                <button
+                  id="prevMonth"
+                  class="btn btn-outline-secondary btn-sm"
+                  aria-label="Mês anterior"
+                >
+                  <i class="bi bi-chevron-left"></i>
+                </button>
+
+                <h2
+                  id="monthTitle"
+                  class="section-title"
+                ></h2>
+
+                <button
+                  id="nextMonth"
+                  class="btn btn-outline-secondary btn-sm"
+                  aria-label="Próximo mês"
+                >
+                  <i class="bi bi-chevron-right"></i>
+                </button>
+
+              </div>
+
+              <div
+                id="calendarHead"
+                class="calendar-grid mb-2"
+              ></div>
+
+              <div
+                id="calendarGrid"
+                class="calendar-grid"
+              ></div>
+
+            </div>
+
+          </div>
+
+          <div class="col-lg-4">
+
+            <div class="app-card">
+
+              <h2 class="section-title mb-2">
+                Eventos do dia
+              </h2>
+
+              <div
+                id="selectedDayLabel"
+                class="muted small mb-3"
+              ></div>
+
+              <div id="calendarEvents"></div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ======================================
+           TELA 06 — COMUNICADOS
+           ====================================== -->
+
+      <div
+        id="screen-comunicados"
+        class="screen"
+      >
+
+        <div class="mb-4">
+
+          <span class="smallcaps muted">
+            FIQUE POR DENTRO
+          </span>
+
+          <h1 class="mt-2">
+            Comunicados<span style="color: #8576d9">.</span>
+          </h1>
+
+          <p class="muted">
+            Avisos fictícios de professores
+            e coordenação. Marque como lidos ao abrir.
+          </p>
+
+        </div>
+
+        <div class="d-flex gap-2 mb-3">
+
+          <button
+            id="noticeAll"
+            class="bf-btn light"
+          >
+            Todos
+          </button>
+
+          <button
+            id="noticeUnread"
+            class="btn btn-outline-secondary"
+          >
+            Não lidos
+          </button>
+
+        </div>
+
+        <input
+          type="search"
+          id="noticeSearch"
+          class="bf-search mb-3"
+          placeholder="Buscar comunicados..."
+          aria-label="Pesquisar comunicados"
+        >
+
+        <div
+          id="noticeList"
+          class="d-grid gap-3"
+        ></div>
+
+      </div>
+
+
+      <!-- ======================================
+           TELA 07 — MENSAGENS
+           ====================================== -->
+
+      <div
+        id="screen-mensagens"
+        class="screen"
+      >
+
+        <div class="mb-4">
+
+          <span class="smallcaps muted">
+            BRIGHTFUTURE CONNECT
+          </span>
+
+          <h1 class="mt-2">
+            Mensagens<span style="color: #8576d9">.</span>
+          </h1>
+
+          <p class="muted">
+            Espaço demonstrativo de conversa
+            com professores sobre notas,
+            atividades e conteúdos.
+          </p>
+
+        </div>
+
+        <div class="fake-banner mb-3">
+
+          <i class="bi bi-info-circle me-1"></i>
+
+          Nenhuma mensagem é enviada a um professor real.
+          As mensagens digitadas são guardadas apenas
+          neste navegador.
+
+        </div>
+
+        <div class="row g-4">
+
+          <div class="col-lg-4">
+
+            <div class="app-card">
+
+              <label
+                for="chatSubject"
+                class="fw-bold mb-2"
+              >
+                Disciplina / professor
+              </label>
+
+              <select
+                id="chatSubject"
+                class="form-select"
+              ></select>
+
+              <label
+                for="chatTopic"
+                class="fw-bold mt-3 mb-2"
+              >
+                Assunto
+              </label>
+
+              <select
+                id="chatTopic"
+                class="form-select"
+              >
+                <option>Notas e avaliações</option>
+                <option>Medida de Eficiência (ME)</option>
+                <option>Atividades e materiais</option>
+                <option>Dúvida sobre o conteúdo</option>
+              </select>
+
+              <p class="muted small mt-3 mb-0">
+                A conversa segue a disciplina selecionada.
+              </p>
+
+            </div>
+
+          </div>
+
+          <div class="col-lg-8">
+
+            <div class="app-card">
+
+              <div class="d-flex align-items-center gap-3 mb-3">
+
+                <span class="avatar">
+                  <i class="bi bi-person-video3"></i>
+                </span>
+
+                <div>
+
+                  <div
+                    id="chatTeacher"
+                    class="fw-bold"
+                  >
+                    Professor
+                  </div>
+
+                  <div
+                    id="chatClass"
+                    class="muted small"
+                  >
+                    Disciplina
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div
+                id="chatMessages"
+                class="chat-messages"
+                aria-live="polite"
+              ></div>
+
+              <form
+                id="chatForm"
+                class="d-flex gap-2 mt-3"
+              >
+
+                <input
+                  id="chatInput"
+                  class="form-control"
+                  placeholder="Digite sua mensagem de demonstração..."
+                  aria-label="Sua mensagem"
+                  maxlength="700"
+                  required
+                >
+
+                <button
+                  type="submit"
+                  class="bf-btn"
+                  aria-label="Enviar mensagem"
+                >
+                  <i class="bi bi-send"></i>
+                </button>
+
+              </form>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ======================================
+           TELA 08 — SOLICITAÇÕES
+           ====================================== -->
+
+      <div
+        id="screen-solicitacoes"
+        class="screen"
+      >
+
+        <div class="mb-4">
+
+          <span class="smallcaps muted">
+            ACOMPANHAMENTO ACADÊMICO
+          </span>
+
+          <h1 class="mt-2">
+            Revisão de frequência<span style="color: #8576d9">.</span>
+          </h1>
+
+          <p class="muted">
+            Consulte faltas registradas,
+            crie solicitações e acompanhe
+            protocolos de demonstração.
+          </p>
+
+        </div>
+
+        <div class="fake-banner mb-3">
+
+          <i class="bi bi-info-circle me-1"></i>
+
+          Nenhuma solicitação será enviada ao professor
+          ou à secretaria. Os estados são exemplos e
+          os protocolos novos permanecem aguardando análise.
+
+        </div>
+
+        <div class="row g-4">
+
+          <div class="col-lg-5">
+
+            <div class="app-card">
+
+              <h2 class="section-title mb-3">
+                Nova solicitação
+              </h2>
+
+              <form id="requestForm">
+
+                <label
+                  for="requestSubject"
+                  class="form-label fw-semibold"
+                >
+                  Disciplina
+                </label>
+
+                <select
+                  id="requestSubject"
+                  class="form-select mb-3"
+                  required
+                ></select>
+
+                <label
+                  for="requestDate"
+                  class="form-label fw-semibold"
+                >
+                  Falta registrada
+                </label>
+
+                <select
+                  id="requestDate"
+                  class="form-select mb-2"
+                  required
+                ></select>
+
+                <div
+                  id="requestDateHelp"
+                  class="muted small mb-3"
+                ></div>
+
+                <label
+                  for="requestType"
+                  class="form-label fw-semibold"
+                >
+                  Tipo de pedido
+                </label>
+
+                <select
+                  id="requestType"
+                  class="form-select mb-3"
+                >
+
+                  <option value="Revisão de lançamento">
+                    Estava presente, mas recebi falta
+                  </option>
+
+                  <option value="Justificativa de ausência">
+                    Preciso justificar minha ausência
+                  </option>
+
+                </select>
+
+                <label
+                  for="requestReason"
+                  class="form-label fw-semibold"
+                >
+                  Explique sua solicitação
+                </label>
+
+                <textarea
+                  id="requestReason"
+                  class="form-control mb-2"
+                  rows="4"
+                  minlength="10"
+                  maxlength="800"
+                  placeholder="Descreva a situação com clareza..."
+                  required
+                ></textarea>
+
+                <div class="muted small mb-3">
+                  Anexos e comprovantes não são enviados
+                  nesta versão. Justificar não significa
+                  abonar automaticamente a ausência.
+                </div>
+
+                <button
+                  type="submit"
+                  class="bf-btn w-100"
+                >
+                  <i class="bi bi-send me-1"></i>
+                  Criar protocolo demonstrativo
+                </button>
+
+              </form>
+
+            </div>
+
+          </div>
+
+          <div class="col-lg-7">
+
+            <div class="app-card mb-3">
+
+              <div
+                class="d-flex justify-content-between align-items-center mb-3 gap-2 flex-wrap"
+              >
+
+                <h2 class="section-title">
+                  Meus protocolos
+                </h2>
+
+                <span
+                  id="requestCount"
+                  class="chip"
+                >
+                  0 solicitações
+                </span>
+
+              </div>
+
+              <div id="requestList"></div>
+
+            </div>
+
+            <div class="app-card">
+
+              <h2 class="section-title mb-2">
+                Como funciona?
+              </h2>
+
+              <div class="small muted">
+                1. Selecione a falta →
+                2. Descreva o ocorrido →
+                3. Acompanhe o protocolo.
+              </div>
+
+              <div class="fake-banner mt-3">
+                O encaminhamento ao professor e a conclusão
+                pela secretaria são ilustrativos.
+                Este projeto não altera registros
+                institucionais nem atualiza a frequência
+                com base na abertura do pedido.
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ======================================
+           TELA 09 — PERFIL
+           ====================================== -->
+
+      <div
+        id="screen-perfil"
+        class="screen"
+      >
+
+        <div class="mb-4">
+
+          <span class="smallcaps muted">
+            CONTA DEMONSTRATIVA
+          </span>
+
+          <h1 class="mt-2">
+            Meu perfil<span style="color: #8576d9">.</span>
+          </h1>
+
+        </div>
+
+        <div class="app-card mb-4">
+
+          <div class="d-flex align-items-center gap-3">
+
+            <span
+              class="avatar"
+              style="
+                width: 66px;
+                height: 66px;
+                font-size: 1.7rem;
+              "
+            >
+              <i class="bi bi-person-fill"></i>
+            </span>
+
+            <div>
+
+              <h2 class="section-title">
+                Aluno demonstrativo
+              </h2>
+
+              <div class="muted small">
+                Sistemas de Informação · 2026.2
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="app-card mb-3">
+
+          <h2 class="section-title mb-3">
+            Preferências de visualização
+          </h2>
+
+          <div class="form-check form-switch">
+
+            <input
+              type="checkbox"
+              id="bfDarkMode"
+              class="form-check-input"
+            >
+
+            <label
+              for="bfDarkMode"
+              class="form-check-label"
+            >
+              Ativar modo escuro nas páginas internas
+            </label>
+
+          </div>
+
+          <p class="small muted mb-0 mt-2">
+            Preferência salva neste navegador.
+          </p>
+
+        </div>
+
+        <div class="app-card">
+
+          <dl class="row mb-0">
+
+            <dt class="col-sm-4 mb-3 muted">
+              Matrícula
+            </dt>
+            <dd class="col-sm-8 mb-3">
+              202600123
+            </dd>
+
+            <dt class="col-sm-4 mb-3 muted">
+              Curso
+            </dt>
+            <dd class="col-sm-8 mb-3">
+              Sistemas de Informação
+            </dd>
+
+            <dt class="col-sm-4 mb-3 muted">
+              Período
+            </dt>
+            <dd class="col-sm-8 mb-3">
+              4º período
+            </dd>
+
+            <dt class="col-sm-4 mb-3 muted">
+              Turno
+            </dt>
+            <dd class="col-sm-8 mb-3">
+              Noturno
+            </dd>
+
+            <dt class="col-sm-4 mb-0 muted">
+              Situação
+            </dt>
+            <dd class="col-sm-8 mb-0">
+              <span class="chip good">
+                Ativo · demonstrativo
+              </span>
+            </dd>
+
+          </dl>
+
+        </div>
+
+        <button
+          class="bf-btn light mt-4 me-2"
+          data-go="solicitacoes"
+        >
+          <i class="bi bi-journal-check me-1"></i>
+          Minhas solicitações
+        </button>
+
+        <button
+          class="bf-btn mt-4"
+          data-logout
+        >
+          <i class="bi bi-box-arrow-right me-1"></i>
+          Encerrar demonstração
+        </button>
+
+      </div>
+
+
+    </main>
+    <!-- FIM DA ÁREA PRINCIPAL -->
+
+
+  </div>
+  <!-- FIM DA APLICAÇÃO -->
+
+
+  <!-- ==========================================
+       04. NAVEGAÇÃO INFERIOR MOBILE
+       ========================================== -->
+
+  <nav
+    class="bottom-nav"
+    aria-label="Navegação rápida"
+  >
+
+    <button
+      class="active"
+      data-go="inicio"
+    >
+      <i class="bi bi-house"></i>
+      Início
+    </button>
+
+    <button data-go="disciplinas">
+      <i class="bi bi-book"></i>
+      Matérias
+    </button>
+
+    <button data-go="desempenho">
+      <i class="bi bi-bar-chart"></i>
+      Notas
+    </button>
+
+    <button data-go="mensagens">
+      <i class="bi bi-chat-dots"></i>
+      Chat
+    </button>
+
+    <button id="moreButton">
+      <i class="bi bi-grid"></i>
+      Mais
+    </button>
+
+  </nav>
+
+
+  <!-- NOTIFICAÇÕES -->
+
+  <div
+    id="toastWrap"
+    class="toast-wrap"
+    role="status"
+    aria-live="polite"
+  ></div>
+
+
+  <!-- ==========================================
+       05. JAVASCRIPT EXISTENTE
+       ========================================== -->
+
+  <script src="app.js"></script>
+  <script src="visual.js"></script>
+
+</body>
+</html>
