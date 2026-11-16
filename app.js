@@ -8,7 +8,7 @@
 const STORAGE_PREFIX = "brightfuture_v1_";
 
 const estudante = {
-    nome: "Ana Oliveira",
+    nome: "Bianca Cristina",
     matricula: "2026001",
     senha: "123456",
     curso: "Ensino Médio"
@@ -454,7 +454,7 @@ function telaDashboard() {
 
     return `
         ${tituloPagina(
-            "Olá, Ana!",
+            "Olá, Bianca!",
             "Bem-vinda ao seu espaço acadêmico."
         )}
 
