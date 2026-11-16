@@ -1,0 +1,622 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Open+Sans:wght@400;500;600;700;800&display=swap");
+
+/* =====================================
+   BRIGHTFUTURE - IDENTIDADE VISUAL
+===================================== */
+
+:root {
+    --primary: #1D4ED8;
+    --primary-dark: #1741B8;
+    --navy: #17367D;
+    --yellow: #FACC15;
+    --orange: #F97316;
+    --green: #16A34A;
+    --background: #EFF6FF;
+    --border: #E3EAF4;
+    --text: #17243D;
+    --muted: #64748B;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Open Sans", sans-serif;
+    background: var(--background);
+    color: var(--text);
+}
+
+button,
+a {
+    transition: all 0.2s ease;
+}
+
+.btn {
+    border-radius: 11px;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background: var(--orange);
+    border-color: var(--orange);
+}
+
+.btn-primary:hover {
+    background: #DC5709;
+    border-color: #DC5709;
+}
+
+.form-control,
+.form-select {
+    padding: 12px;
+    border-radius: 11px;
+    border-color: #DBE4EF;
+}
+
+.eyebrow {
+    display: block;
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    margin-bottom: 7px;
+}
+
+/* =====================================
+   LOGIN
+===================================== */
+
+.login-layout {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: white;
+}
+
+.login-panel {
+    width: min(480px, 90%);
+    margin: auto;
+    padding: 45px 0;
+}
+
+.login-logo {
+    display: block;
+    width: 280px;
+    max-width: 100%;
+    height: 145px;
+    object-fit: contain;
+    object-position: left center;
+    margin-bottom: 24px;
+}
+
+.login-panel h1 {
+    color: var(--navy);
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+}
+
+.login-showcase {
+    background: linear-gradient(
+        145deg,
+        #1741B8,
+        #1D4ED8 64%,
+        #F97316
+    );
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    color: white;
+    padding: 60px;
+}
+
+.login-showcase i {
+    font-size: 120px;
+    opacity: 0.85;
+}
+
+.login-showcase h2 {
+    font-size: 38px;
+    font-weight: 800;
+    max-width: 500px;
+}
+
+.login-showcase p {
+    max-width: 420px;
+    opacity: 0.85;
+}
+
+/* =====================================
+   ESTRUTURA PRINCIPAL
+===================================== */
+
+.app-layout {
+    min-height: 100vh;
+    display: flex;
+}
+
+/* =====================================
+   MENU LATERAL
+===================================== */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+
+    width: 255px;
+    padding: 24px 14px;
+
+    background: white;
+    border-right: 1px solid var(--border);
+
+    display: flex;
+    flex-direction: column;
+
+    z-index: 30;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 10px 28px;
+}
+
+.brand-symbol {
+    width: 43px;
+    height: 43px;
+
+    display: grid;
+    place-items: center;
+
+    background: linear-gradient(
+        135deg,
+        var(--primary),
+        var(--orange)
+    );
+
+    color: white;
+    border-radius: 13px;
+    font-size: 23px;
+}
+
+.brand strong {
+    display: block;
+    color: var(--navy);
+    font-size: 18px;
+}
+
+.brand small {
+    display: block;
+    color: #8091A8;
+    font-size: 12px;
+}
+
+.nav-label {
+    color: #96A4B8;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 0 16px 10px;
+}
+
+.sidebar .nav {
+    flex: 1;
+    overflow-y: auto;
+    flex-wrap: nowrap;
+    gap: 3px;
+}
+
+.sidebar .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    width: 100%;
+    padding: 11px 15px;
+
+    border: 0;
+    border-radius: 10px;
+
+    background: transparent;
+    color: #54657D;
+
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.sidebar .nav-link i {
+    font-size: 18px;
+}
+
+.sidebar .nav-link:hover {
+    background: #EFF5FF;
+    color: var(--primary);
+}
+
+.sidebar .nav-link.active {
+    background: #EFF6FF;
+    color: var(--primary);
+}
+
+.sidebar-footer {
+    padding: 16px 8px 0;
+    border-top: 1px solid var(--border);
+}
+
+/* =====================================
+   CONTEÚDO E CABEÇALHO
+===================================== */
+
+.main-area {
+    margin-left: 255px;
+    width: calc(100% - 255px);
+    min-width: 0;
+}
+
+.topbar {
+    height: 80px;
+    padding: 0 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+
+    background: white;
+    border-bottom: 1px solid var(--border);
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    width: 39px;
+    height: 39px;
+
+    display: grid;
+    place-items: center;
+
+    background: #DCEAFE;
+    color: var(--primary);
+
+    border-radius: 50%;
+    font-weight: 800;
+}
+
+.page-content {
+    max-width: 1400px;
+    padding: 32px;
+}
+
+.page-title {
+    margin-bottom: 7px;
+    color: var(--navy);
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.page-subtitle {
+    color: var(--muted);
+    margin-bottom: 24px;
+}
+
+/* =====================================
+   BANNER PRINCIPAL
+===================================== */
+
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+    padding: 32px;
+    border-radius: 20px;
+
+    background: linear-gradient(
+        110deg,
+        #1741B8,
+        #1D4ED8 75%,
+        #F97316
+    );
+
+    color: white;
+}
+
+.hero h2 {
+    font-weight: 800;
+}
+
+.hero p {
+    opacity: 0.85;
+    margin: 0;
+}
+
+.hero > i {
+    font-size: 80px;
+    opacity: 0.75;
+}
+
+/* =====================================
+   CARDS E INDICADORES
+===================================== */
+
+.bf-card {
+    height: 100%;
+    padding: 23px;
+
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+
+    box-shadow: 0 5px 22px #1D3B6710;
+}
+
+.bf-card h3 {
+    margin-bottom: 17px;
+    color: var(--navy);
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.metric-label {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.metric-value {
+    margin: 6px 0;
+    color: var(--navy);
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.metric-icon {
+    padding: 9px 13px;
+
+    background: #FFF4CC;
+    color: #99500B;
+
+    border-radius: 13px;
+    font-size: 26px;
+}
+
+/* =====================================
+   LISTAS E STATUS
+===================================== */
+
+.list-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+
+    padding: 13px 0;
+    border-bottom: 1px solid #EEF2F8;
+}
+
+.list-row:last-child {
+    border-bottom: 0;
+}
+
+.list-row strong {
+    display: block;
+    font-size: 14px;
+}
+
+.list-row small {
+    display: block;
+    color: var(--muted);
+}
+
+.badge-soft {
+    display: inline-block;
+    padding: 6px 10px;
+
+    background: #EDF4FF;
+    color: var(--primary);
+
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.badge-ok {
+    background: #E5F6EB;
+    color: #13763A;
+    border-left: 3px solid var(--green);
+}
+
+.badge-warn {
+    background: #FFF3D4;
+    color: #8C5400;
+    border-left: 3px solid var(--yellow);
+}
+
+/* =====================================
+   TABELAS
+===================================== */
+
+.table {
+    --bs-table-bg: transparent;
+}
+
+.table thead th {
+    color: #71829C;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.table td,
+.table th {
+    border-color: #EDF1F7;
+}
+
+/* =====================================
+   NOTIFICAÇÕES
+===================================== */
+
+.toast-region {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 90;
+    max-width: 360px;
+}
+
+.toast-note {
+    margin-top: 8px;
+    padding: 14px 18px;
+
+    background: var(--primary);
+    color: white;
+
+    border-radius: 12px;
+    box-shadow: 0 10px 30px #10275B44;
+}
+
+/* =====================================
+   MENU MOBILE
+===================================== */
+
+.mobile-backdrop {
+    position: fixed;
+    inset: 0;
+    background: #0F172A77;
+    z-index: 25;
+}
+
+/* =====================================
+   ALTO CONTRASTE
+===================================== */
+
+.high-contrast {
+    --background: #E5EAF3;
+    --muted: #334155;
+    --border: #7D8CA6;
+    color: #071329;
+}
+
+.high-contrast .bf-card,
+.high-contrast .sidebar,
+.high-contrast .topbar {
+    border-color: #7D8CA6;
+}
+
+/* =====================================
+   RESPONSIVIDADE
+===================================== */
+
+@media (max-width: 991px) {
+
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.2s ease;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .main-area {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .page-content {
+        padding: 20px;
+    }
+
+    .topbar {
+        height: 70px;
+        padding: 0 20px;
+    }
+
+    .login-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .login-showcase {
+        display: none;
+    }
+}
+
+@media (max-width: 575px) {
+
+    .hero {
+        padding: 23px;
+    }
+
+    .hero > i {
+        display: none;
+    }
+
+    .page-title {
+        font-size: 23px;
+    }
+
+    .bf-card {
+        padding: 18px;
+    }
+
+    .login-panel {
+        padding: 30px 0;
+    }
+
+    .login-panel h1 {
+        font-size: 32px;
+    }
+
+    .list-row {
+        flex-wrap: wrap;
+    }
+}
+
+/* Identidade visual oficial: hierarquia, indicadores e acessibilidade */
+h1, h2, h3, h4, h5, h6, .page-title, .brand strong, .metric-value {
+    font-family: "Baloo 2", sans-serif;
+}
+.login-panel h1 { color: var(--primary); }
+.login-showcase i { color: var(--yellow); opacity: 1; }
+.hero > i { color: var(--yellow); opacity: 1; }
+.brand-symbol { box-shadow: 0 3px 0 var(--yellow); }
+.metric-icon { background: #FFF4CC; color: #925200; }
+.bf-card:nth-child(3n + 2) .metric-icon { background: #FFF0E5; color: #B94D0A; }
+.bf-card:nth-child(3n) .metric-icon { background: #E5F6EB; color: #13763A; }
+.bf-card:hover { border-color: #BDD1FB; box-shadow: 0 8px 24px #1D4ED81A; }
+.btn-primary:focus-visible, .sidebar .nav-link:focus-visible,
+:where(button, a, input, select, textarea, [tabindex]):focus-visible {
+    outline: 3px solid var(--yellow); outline-offset: 3px;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary); box-shadow: 0 0 0 3px #1D4ED826;
+}
+.bf-search-empty { width: 100%; margin: 0; text-align: center; font-size: .95rem; }
+[hidden] { display: none !important; }
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+@media (max-width: 575.98px) {
+    .app-card { overflow-wrap: anywhere; }
+    .table-responsive { -webkit-overflow-scrolling: touch; }
+    input, select, textarea { max-width: 100%; }
+}
