@@ -1,18 +1,17 @@
 
-"use strict";
+// BRIGHTFUTURE - JAVASCRIPT SIMPLES
+// Projeto acadêmico com dados fictícios.
 
-/* =========================================
-   BRIGHTFUTURE - DADOS DEMONSTRATIVOS
-========================================= */
+// 1. DADOS DO ESTUDANTE
 
-const STORAGE_PREFIX = "brightfuture_v1_";
-
-const estudante = {
+const aluno = {
     nome: "Bianca Cristina",
     matricula: "2026001",
     senha: "123456",
     curso: "Ensino Médio"
 };
+
+// 2. DISCIPLINAS E NOTAS
 
 const disciplinas = [
     {
@@ -73,6 +72,8 @@ const disciplinas = [
     }
 ];
 
+// 3. ATIVIDADES
+
 const atividades = [
     {
         id: 1,
@@ -104,6 +105,8 @@ const atividades = [
     }
 ];
 
+// 4. COMUNICADOS
+
 const comunicados = [
     {
         id: 1,
@@ -125,11 +128,9 @@ const comunicados = [
     }
 ];
 
-/* =========================================
-   MENU DE NAVEGAÇÃO
-========================================= */
+// 5. MENU
 
-const menuItems = [
+const menu = [
     ["dashboard", "Painel inicial", "grid-1x2"],
     ["disciplinas", "Disciplinas", "book"],
     ["grade", "Grade semanal", "clock"],
@@ -144,353 +145,205 @@ const menuItems = [
     ["perfil", "Perfil", "person-circle"]
 ];
 
-let paginaAtual = "dashboard";
+// 6. FUNÇÕES AUXILIARES
 
-/* =========================================
-   FUNÇÕES UTILITÁRIAS
-========================================= */
-
-function salvar(chave, valor) {
-    localStorage.setItem(
-        STORAGE_PREFIX + chave,
-        JSON.stringify(valor)
-    );
+function elemento(id) {
+    return document.getElementById(id);
 }
 
-function carregar(chave, padrao = []) {
-    try {
-        const valor = localStorage.getItem(
-            STORAGE_PREFIX + chave
-        );
+function ler(nome) {
+    return JSON.parse(localStorage.getItem("bf_" + nome) || "[]");
+}
 
-        return valor === null
-            ? padrao
-            : JSON.parse(valor);
-    } catch {
-        return padrao;
+function guardar(nome, dados) {
+    localStorage.setItem("bf_" + nome, JSON.stringify(dados));
+}
+
+function dataBR(data) {
+    return new Date(data + "T12:00:00").toLocaleDateString("pt-BR");
+}
+
+function nota(valor) {
+    return valor === null
+        ? "Não lançada"
+        : valor.toFixed(1).replace(".", ",");
+}
+
+function up(me, pc) {
+    if (me === null || pc === null) {
+        return null;
     }
+    return me + pc;
 }
 
-function protegerHTML(valor) {
-    return String(valor ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
+function media(d) {
+    const nota1 = up(d.me1, d.pc1);
+    const nota2 = up(d.me2, d.pc2);
+
+    if (nota1 === null || nota2 === null) {
+        return null;
+    }
+
+    return (nota1 + nota2) / 2;
 }
 
-function icone(nome) {
-    return `<i class="bi bi-${nome}" aria-hidden="true"></i>`;
+function frequencia(d) {
+    return Math.round((d.aulas - d.faltas) / d.aulas * 100);
 }
 
-function tituloPagina(titulo, descricao) {
+function icon(nome) {
+    return `<i class="bi bi-${nome}"></i>`;
+}
+
+function cabecalho(titulo, descricao) {
     return `
         <h1 class="page-title">${titulo}</h1>
         <p class="page-subtitle">${descricao}</p>
     `;
 }
 
-function card(titulo, conteudo) {
+function cartao(titulo, corpo) {
     return `
         <section class="bf-card">
             <h3>${titulo}</h3>
-            ${conteudo}
+            ${corpo}
         </section>
     `;
 }
 
-function linha(titulo, descricao, complemento = "") {
+function linha(titulo, descricao, extra = "") {
     return `
         <div class="list-row">
             <div>
                 <strong>${titulo}</strong>
                 <small>${descricao}</small>
             </div>
-            ${complemento}
+            ${extra}
         </div>
     `;
 }
 
-function formatarData(data) {
-    return new Date(data + "T12:00:00")
-        .toLocaleDateString("pt-BR");
+function aviso(texto) {
+    elemento("toastRegion").textContent = texto;
+
+    setTimeout(function () {
+        elemento("toastRegion").textContent = "";
+    }, 3000);
 }
 
-function formatarNota(nota) {
-    return nota === null
-        ? "Não lançada"
-        : nota.toFixed(1).replace(".", ",");
+function escapar(texto) {
+    return String(texto).replace(/[&<>"']/g, function (c) {
+        return {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        }[c];
+    });
 }
 
-function calcularUP(me, pc) {
-    if (me === null || pc === null) {
-        return null;
-    }
+// 7. LOGIN
 
-    return me + pc;
-}
-
-function calcularMedia(disciplina) {
-    const up1 = calcularUP(
-        disciplina.me1,
-        disciplina.pc1
-    );
-
-    const up2 = calcularUP(
-        disciplina.me2,
-        disciplina.pc2
-    );
-
-    if (up1 === null || up2 === null) {
-        return null;
-    }
-
-    return (up1 + up2) / 2;
-}
-
-function calcularFrequencia(disciplina) {
-    const presencas =
-        disciplina.aulas - disciplina.faltas;
-
-    return Math.round(
-        (presencas / disciplina.aulas) * 100
-    );
-}
-
-function notificar(mensagem) {
-    const elemento = document.createElement("div");
-
-    elemento.className = "toast-note";
-    elemento.textContent = mensagem;
-
-    document
-        .getElementById("toastRegion")
-        .appendChild(elemento);
-
-    setTimeout(() => elemento.remove(), 4000);
-}
-
-function atividadesConcluidas() {
-    return carregar("concluidas", []);
-}
-
-function atividadeConcluida(id) {
-    return atividadesConcluidas().includes(id);
-}
-
-/* =========================================
-   LOGIN E SESSÃO
-========================================= */
-
-const loginForm = document.getElementById("loginForm");
-
-loginForm.addEventListener("submit", function (evento) {
+elemento("loginForm").addEventListener("submit", function (evento) {
     evento.preventDefault();
 
-    const matricula = document
-        .getElementById("matricula")
-        .value.trim();
+    const matricula = elemento("matricula").value.trim();
+    const senha = elemento("senha").value;
 
-    const senha = document
-        .getElementById("senha")
-        .value;
+    if (matricula !== aluno.matricula || senha !== aluno.senha) {
+        elemento("loginError").textContent = "Matrícula ou senha incorreta.";
+        return;
+    }
 
-    if (
-        matricula === estudante.matricula &&
-        senha === estudante.senha
-    ) {
-        salvar("sessao", true);
-        abrirAplicacao();
-    } else {
-        document.getElementById("loginError")
-            .textContent = "Matrícula ou senha demonstrativa incorreta.";
+    elemento("loginError").textContent = "";
+    elemento("loginView").classList.add("d-none");
+    elemento("appView").classList.remove("d-none");
+
+    mostrar("dashboard");
+});
+
+// 8. SAIR
+
+elemento("logoutBtn").addEventListener("click", function () {
+    elemento("appView").classList.add("d-none");
+    elemento("loginView").classList.remove("d-none");
+    fecharMenu();
+});
+
+// 9. NAVEGAÇÃO
+
+elemento("menu").innerHTML = menu.map(function (item) {
+    return `
+        <button class="nav-link" data-pagina="${item[0]}">
+            ${icon(item[2])}
+            <span>${item[1]}</span>
+        </button>
+    `;
+}).join("");
+
+function fecharMenu() {
+    elemento("sidebar").classList.remove("open");
+    elemento("mobileBackdrop").classList.add("d-none");
+}
+
+elemento("menuToggle").addEventListener("click", function () {
+    elemento("sidebar").classList.toggle("open");
+    elemento("mobileBackdrop").classList.toggle("d-none");
+});
+
+elemento("mobileBackdrop").addEventListener("click", fecharMenu);
+
+elemento("menu").addEventListener("click", function (evento) {
+    const botao = evento.target.closest("[data-pagina]");
+
+    if (botao) {
+        mostrar(botao.dataset.pagina);
     }
 });
 
-function abrirAplicacao() {
-    document
-        .getElementById("loginView")
-        .classList.add("d-none");
+// 10. DASHBOARD
 
-    document
-        .getElementById("appView")
-        .classList.remove("d-none");
+function dashboard() {
+    const concluidas = ler("concluidas");
+    const lidos = ler("lidos");
 
-    navegar("dashboard");
-}
-
-document
-    .getElementById("logoutBtn")
-    .addEventListener("click", function () {
-        localStorage.removeItem(
-            STORAGE_PREFIX + "sessao"
-        );
-
-        document
-            .getElementById("appView")
-            .classList.add("d-none");
-
-        document
-            .getElementById("loginView")
-            .classList.remove("d-none");
-
-        fecharMenu();
+    const pendentes = atividades.filter(function (a) {
+        return !concluidas.includes(a.id);
     });
 
-/* =========================================
-   NAVEGAÇÃO
-========================================= */
-
-function criarMenu() {
-    const menu = document.getElementById("menu");
-
-    menu.innerHTML = menuItems.map(function (item) {
-        return `
-            <button
-                class="nav-link"
-                data-page="${item[0]}"
-                type="button"
-            >
-                ${icone(item[2])}
-                <span>${item[1]}</span>
-            </button>
-        `;
-    }).join("");
-}
-
-function navegar(pagina) {
-    if (!telas[pagina]) {
-        pagina = "dashboard";
-    }
-
-    paginaAtual = pagina;
-
-    document.getElementById("content").innerHTML =
-        telas[pagina]();
-
-    const item = menuItems.find(
-        item => item[0] === pagina
-    );
-
-    document.getElementById("breadcrumb")
-        .textContent = item[1];
-
-    document.querySelectorAll("[data-page]")
-        .forEach(function (botao) {
-            const ativo = botao.dataset.page === pagina;
-
-            botao.classList.toggle("active", ativo);
-
-            if (ativo) {
-                botao.setAttribute("aria-current", "page");
-            } else {
-                botao.removeAttribute("aria-current");
-            }
-        });
-
-    fecharMenu();
-    window.scrollTo(0, 0);
-}
-
-document.getElementById("menu")
-    .addEventListener("click", function (evento) {
-        const botao = evento.target.closest("[data-page]");
-
-        if (botao) {
-            navegar(botao.dataset.page);
-        }
-    });
-
-function fecharMenu() {
-    document.getElementById("sidebar")
-        .classList.remove("open");
-
-    document.getElementById("mobileBackdrop")
-        .classList.add("d-none");
-}
-
-document.getElementById("menuToggle")
-    .addEventListener("click", function () {
-        document.getElementById("sidebar")
-            .classList.toggle("open");
-
-        document.getElementById("mobileBackdrop")
-            .classList.toggle("d-none");
-    });
-
-document.getElementById("mobileBackdrop")
-    .addEventListener("click", fecharMenu);
-
-/* =========================================
-   DASHBOARD
-========================================= */
-
-function telaDashboard() {
-    const pendentes = atividades.filter(
-        atividade => !atividadeConcluida(atividade.id)
-    );
-
-    const lidos = carregar("comunicadosLidos", []);
-
-    const naoLidos = comunicados.filter(
-        comunicado => !lidos.includes(comunicado.id)
-    );
-
-    const frequenciaMedia = Math.round(
-        disciplinas.reduce(
-            (total, disciplina) =>
-                total + calcularFrequencia(disciplina),
-            0
-        ) / disciplinas.length
+    const totalFrequencia = Math.round(
+        disciplinas.reduce(function (soma, d) {
+            return soma + frequencia(d);
+        }, 0) / disciplinas.length
     );
 
     const indicadores = [
         ["Disciplinas", disciplinas.length, "book"],
         ["Atividades pendentes", pendentes.length, "list-check"],
-        ["Comunicados não lidos", naoLidos.length, "megaphone"],
-        ["Frequência média", frequenciaMedia + "%", "graph-up"]
+        ["Comunicados não lidos", comunicados.length - lidos.length, "megaphone"],
+        ["Frequência média", totalFrequencia + "%", "graph-up"]
     ];
 
-    return `
-        ${tituloPagina(
-            "Olá, Bianca!",
-            "Bem-vinda ao seu espaço acadêmico."
-        )}
-
+    return cabecalho("Olá, Bianca!", "Bem-vinda ao seu espaço acadêmico.") + `
         <div class="hero mb-4">
             <div>
-                <span class="small text-white-50">
-                    ANO LETIVO 2026
-                </span>
-
+                <small>ANO LETIVO 2026</small>
                 <h2>Seu aprendizado em um só lugar</h2>
-
-                <p>
-                    Confira suas entregas e acompanhe seu progresso.
-                </p>
+                <p>Confira suas entregas e acompanhe seu progresso.</p>
             </div>
-
-            ${icone("mortarboard")}
+            ${icon("mortarboard")}
         </div>
 
         <div class="row g-3 mb-4">
-            ${indicadores.map(indicador => `
+            ${indicadores.map(i => `
                 <div class="col-sm-6 col-xl-3">
-                    <div class="bf-card d-flex align-items-center justify-content-between">
+                    <div class="bf-card d-flex justify-content-between align-items-center">
                         <div>
-                            <div class="metric-label">
-                                ${indicador[0]}
-                            </div>
-
-                            <div class="metric-value">
-                                ${indicador[1]}
-                            </div>
+                            <div class="metric-label">${i[0]}</div>
+                            <div class="metric-value">${i[1]}</div>
                         </div>
-
-                        <span class="metric-icon">
-                            ${icone(indicador[2])}
-                        </span>
+                        <span class="metric-icon">${icon(i[2])}</span>
                     </div>
                 </div>
             `).join("")}
@@ -498,28 +351,18 @@ function telaDashboard() {
 
         <div class="row g-3">
             <div class="col-lg-7">
-                ${card(
-                    "Próximas atividades",
-                    pendentes.map(atividade =>
-                        linha(
-                            atividade.titulo,
-                            atividade.disciplina,
-                            `<span class="badge-soft">
-                                ${formatarData(atividade.prazo)}
-                            </span>`
-                        )
-                    ).join("") || "<p>Nenhuma atividade pendente.</p>"
+                ${cartao("Próximas atividades",
+                    pendentes.map(a =>
+                        linha(a.titulo, a.disciplina,
+                            `<span class="badge-soft">${dataBR(a.prazo)}</span>`)
+                    ).join("") || "Sem atividades pendentes."
                 )}
             </div>
 
             <div class="col-lg-5">
-                ${card(
-                    "Últimos comunicados",
-                    comunicados.map(comunicado =>
-                        linha(
-                            comunicado.titulo,
-                            comunicado.data
-                        )
+                ${cartao("Últimos comunicados",
+                    comunicados.map(c =>
+                        linha(c.titulo, c.data)
                     ).join("")
                 )}
             </div>
@@ -527,475 +370,357 @@ function telaDashboard() {
     `;
 }
 
-/* =========================================
-   DISCIPLINAS E GRADE
-========================================= */
+// 11. DISCIPLINAS
 
 function telaDisciplinas() {
-    return `
-        ${tituloPagina(
-            "Minhas disciplinas",
-            "Consulte professores e horários."
-        )}
-
+    return cabecalho("Minhas disciplinas", "Consulte professores e horários.") + `
         <div class="row g-3">
-            ${disciplinas.map(disciplina => `
+            ${disciplinas.map(d => `
                 <div class="col-md-6">
-                    ${card(
-                        disciplina.nome,
-                        `
-                            <p>${disciplina.professor}</p>
-                            <p>
-                                <strong>Dia:</strong>
-                                ${disciplina.dia}
-                            </p>
-                            <p>
-                                <strong>Horário:</strong>
-                                ${disciplina.horario}
-                            </p>
-                            <p>
-                                <strong>Sala:</strong>
-                                ${disciplina.sala}
-                            </p>
-                        `
-                    )}
+                    ${cartao(d.nome, `
+                        <p>${d.professor}</p>
+                        <p><b>Dia:</b> ${d.dia}</p>
+                        <p><b>Horário:</b> ${d.horario}</p>
+                        <p><b>Sala:</b> ${d.sala}</p>
+                    `)}
                 </div>
             `).join("")}
         </div>
     `;
 }
 
+// 12. GRADE SEMANAL
+
 function telaGrade() {
-    return `
-        ${tituloPagina(
-            "Grade semanal",
-            "Horários demonstrativos das aulas."
-        )}
-
-        ${card(
-            "Horários",
-            disciplinas.map(disciplina =>
-                linha(
-                    disciplina.nome,
-                    disciplina.professor,
-                    `<span class="badge-soft">
-                        ${disciplina.dia} -
-                        ${disciplina.horario}
-                    </span>`
-                )
-            ).join("")
-        )}
-    `;
-}
-
-/* =========================================
-   NOTAS
-========================================= */
-
-function telaNotas() {
-    return `
-        ${tituloPagina(
-            "Minhas notas",
-            "Consulte as avaliações UP1 e UP2."
-        )}
-
-        ${card(
-            "Boletim demonstrativo",
-            `
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Disciplina</th>
-                                <th>ME1</th>
-                                <th>PC1</th>
-                                <th>UP1</th>
-                                <th>ME2</th>
-                                <th>PC2</th>
-                                <th>UP2</th>
-                                <th>Média</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            ${disciplinas.map(d => `
-                                <tr>
-                                    <td>${d.nome}</td>
-                                    <td>${formatarNota(d.me1)}</td>
-                                    <td>${formatarNota(d.pc1)}</td>
-                                    <td>${formatarNota(calcularUP(d.me1, d.pc1))}</td>
-                                    <td>${formatarNota(d.me2)}</td>
-                                    <td>${formatarNota(d.pc2)}</td>
-                                    <td>${formatarNota(calcularUP(d.me2, d.pc2))}</td>
-                                    <td>${formatarNota(calcularMedia(d))}</td>
-                                </tr>
-                            `).join("")}
-                        </tbody>
-                    </table>
-                </div>
-
-                <p class="small text-secondary">
-                    ME: até 2 pontos. PC: até 8 pontos.
-                    Média = (UP1 + UP2) / 2.
-                </p>
-            `
-        )}
-    `;
-}
-
-/* =========================================
-   FREQUÊNCIA E REVISÃO
-========================================= */
-
-function telaFrequencia() {
-    return `
-        ${tituloPagina(
-            "Frequência",
-            "Acompanhe suas presenças e faltas."
-        )}
-
-        ${card(
-            "Frequência por disciplina",
+    return cabecalho("Grade semanal", "Horários demonstrativos das aulas.") +
+        cartao("Horários",
             disciplinas.map(d =>
                 linha(
                     d.nome,
-                    `${d.faltas} faltas em ${d.aulas} aulas`,
-                    `
-                        <span class="badge-soft badge-ok">
-                            ${calcularFrequencia(d)}%
-                        </span>
-
-                        <button
-                            class="btn btn-sm btn-outline-primary"
-                            data-action="revisar"
-                            data-id="${d.id}"
-                        >
-                            Revisar
-                        </button>
-                    `
+                    d.professor,
+                    `<span class="badge-soft">${d.dia} · ${d.horario}</span>`
                 )
             ).join("")
-        )}
-    `;
+        );
 }
+
+// 13. NOTAS
+
+function telaNotas() {
+    return cabecalho(
+        "Minhas notas",
+        "ME vale até 2,0 e prova/projeto até 8,0."
+    ) + cartao("Boletim demonstrativo", `
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Disciplina</th>
+                        <th>ME1</th>
+                        <th>PC1</th>
+                        <th>UP1</th>
+                        <th>ME2</th>
+                        <th>PC2</th>
+                        <th>UP2</th>
+                        <th>Média</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${disciplinas.map(d => `
+                        <tr>
+                            <td>${d.nome}</td>
+                            <td>${nota(d.me1)}</td>
+                            <td>${nota(d.pc1)}</td>
+                            <td>${nota(up(d.me1, d.pc1))}</td>
+                            <td>${nota(d.me2)}</td>
+                            <td>${nota(d.pc2)}</td>
+                            <td>${nota(up(d.me2, d.pc2))}</td>
+                            <td><b>${nota(media(d))}</b></td>
+                        </tr>
+                    `).join("")}
+                </tbody>
+            </table>
+        </div>
+        <p class="small text-secondary mb-0">
+            Notas ausentes aparecem como "Não lançada", não como zero.
+        </p>
+    `);
+}
+
+// 14. FREQUÊNCIA
+
+function telaFrequencia() {
+    return cabecalho(
+        "Frequência",
+        "Presenças e ausências demonstrativas."
+    ) + cartao("Frequência por disciplina",
+        disciplinas.map(d =>
+            linha(
+                d.nome,
+                `${d.faltas} faltas em ${d.aulas} aulas`,
+                `
+                <div>
+                    <span class="badge-soft">${frequencia(d)}%</span>
+                    <button class="btn btn-sm btn-outline-primary"
+                            data-revisar="${d.id}">
+                        Revisar
+                    </button>
+                </div>
+                `
+            )
+        ).join("")
+    );
+}
+
+// 15. REVISÃO DE FALTAS
 
 function telaRevisao() {
-    const protocolos = carregar("protocolos", []);
+    const protocolos = ler("protocolos");
 
-    return `
-        ${tituloPagina(
-            "Revisão de faltas",
-            "Solicitações fictícias, sem alteração de presença."
-        )}
-
+    return cabecalho(
+        "Revisão de faltas",
+        "A solicitação é apenas uma demonstração."
+    ) + `
         <div class="row g-3">
-            <div class="col-lg-6">
-                ${card(
-                    "Nova solicitação",
-                    `
-                        <form id="formRevisao">
+            <div class="col-lg-5">
+                ${cartao("Nova solicitação", `
+                    <form id="formRevisao">
+                        <label for="disciplinaRevisao" class="form-label">
+                            Disciplina
+                        </label>
 
-                            <label class="form-label">
-                                Disciplina
-                            </label>
+                        <select id="disciplinaRevisao" class="form-select mb-3">
+                            ${disciplinas.map(d => `
+                                <option value="${d.id}">${d.nome}</option>
+                            `).join("")}
+                        </select>
 
-                            <select
-                                id="disciplinaRevisao"
-                                class="form-select mb-3"
-                            >
-                                ${disciplinas.map(d => `
-                                    <option value="${d.id}">
-                                        ${d.nome}
-                                    </option>
-                                `).join("")}
-                            </select>
+                        <label for="justificativa" class="form-label">
+                            Justificativa
+                        </label>
 
-                            <label class="form-label">
-                                Justificativa
-                            </label>
+                        <textarea id="justificativa"
+                                  class="form-control mb-3"
+                                  rows="4"
+                                  maxlength="600"
+                                  required></textarea>
 
-                            <textarea
-                                id="justificativa"
-                                class="form-control mb-3"
-                                rows="4"
-                                maxlength="500"
-                                required
-                            ></textarea>
-
-                            <button class="btn btn-primary">
-                                Gerar protocolo
-                            </button>
-
-                        </form>
-                    `
-                )}
+                        <button class="btn btn-primary">
+                            Criar protocolo
+                        </button>
+                    </form>
+                `)}
             </div>
 
-            <div class="col-lg-6">
-                ${card(
-                    "Protocolos registrados",
+            <div class="col-lg-7">
+                ${cartao("Meus protocolos",
                     protocolos.map(p =>
                         linha(
-                            protegerHTML(p.numero),
-                            protegerHTML(p.disciplina),
-                            '<span class="badge-soft badge-warn">Pendente</span>'
+                            escapar(p.numero),
+                            escapar(p.disciplina),
+                            `<span class="badge-soft">Pendente</span>`
                         )
-                    ).join("") || "<p>Nenhum protocolo registrado.</p>"
+                    ).join("") || "Nenhum protocolo criado."
                 )}
             </div>
         </div>
+
+        <p class="small text-secondary mt-3">
+            O protocolo é salvo somente neste navegador.
+            Não modifica faltas reais.
+        </p>
     `;
 }
 
-/* =========================================
-   ATIVIDADES E CALENDÁRIO
-========================================= */
+// 16. ATIVIDADES
 
 function telaAtividades() {
-    return `
-        ${tituloPagina(
-            "Atividades",
-            "Gerencie suas tarefas demonstrativas."
-        )}
+    const concluidas = ler("concluidas");
 
-        ${card(
-            "Minhas atividades",
-            atividades.map(atividade =>
-                linha(
-                    atividade.titulo,
-                    `${atividade.disciplina} - ${formatarData(atividade.prazo)}`,
-                    `
-                        <label class="d-flex align-items-center gap-2">
-                            <input
-                                type="checkbox"
-                                class="form-check-input"
-                                data-tarefa="${atividade.id}"
-                                ${atividadeConcluida(atividade.id) ? "checked" : ""}
-                            >
-
-                            <span class="small">
-                                ${atividadeConcluida(atividade.id)
-                                    ? "Concluída"
-                                    : "Concluir"}
-                            </span>
-                        </label>
-                    `
-                )
-            ).join("")
-        )}
-    `;
+    return cabecalho(
+        "Atividades",
+        "Organize suas tarefas demonstrativas."
+    ) + cartao("Minhas atividades",
+        atividades.map(a =>
+            linha(
+                a.titulo,
+                `${a.disciplina} · até ${dataBR(a.prazo)}`,
+                `
+                <label class="form-check d-flex gap-2 align-items-center">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           data-tarefa="${a.id}"
+                           ${concluidas.includes(a.id) ? "checked" : ""}>
+                    <span class="small">Concluída</span>
+                </label>
+                `
+            )
+        ).join("")
+    );
 }
+
+// 17. CALENDÁRIO
 
 function telaCalendario() {
-    return `
-        ${tituloPagina(
-            "Calendário",
-            "Próximas datas acadêmicas."
-        )}
-
-        ${card(
-            "Agenda acadêmica",
-            atividades.map(a =>
-                linha(
-                    a.titulo,
-                    a.disciplina,
-                    `<span class="badge-soft">
-                        ${formatarData(a.prazo)}
-                    </span>`
-                )
-            ).join("")
-        )}
-    `;
+    return cabecalho(
+        "Calendário",
+        "Agenda demonstrativa de atividades."
+    ) + cartao("Próximas datas",
+        atividades.map(a =>
+            linha(
+                a.titulo,
+                a.disciplina,
+                `<span class="badge-soft">${dataBR(a.prazo)}</span>`
+            )
+        ).join("")
+    );
 }
 
-/* =========================================
-   COMUNICADOS
-========================================= */
+// 18. COMUNICADOS
 
 function telaComunicados() {
-    const lidos = carregar("comunicadosLidos", []);
+    const lidos = ler("lidos");
 
-    return `
-        ${tituloPagina(
-            "Comunicados",
-            "Avisos acadêmicos demonstrativos."
-        )}
-
-        ${card(
-            "Quadro de avisos",
-            comunicados.map(c =>
-                linha(
-                    c.titulo,
-                    c.descricao,
-                    `
-                        <button
-                            class="btn btn-sm btn-outline-primary"
-                            data-action="ler"
-                            data-id="${c.id}"
-                            ${lidos.includes(c.id) ? "disabled" : ""}
-                        >
-                            ${lidos.includes(c.id) ? "Lido" : "Marcar como lido"}
-                        </button>
-                    `
-                )
-            ).join("")
-        )}
-    `;
+    return cabecalho(
+        "Comunicados",
+        "Avisos acadêmicos demonstrativos."
+    ) + cartao("Quadro de avisos",
+        comunicados.map(c =>
+            linha(
+                c.titulo,
+                c.descricao,
+                `
+                <button class="btn btn-sm btn-outline-primary"
+                        data-ler="${c.id}"
+                        ${lidos.includes(c.id) ? "disabled" : ""}>
+                    ${lidos.includes(c.id) ? "Lido" : "Marcar como lido"}
+                </button>
+                `
+            )
+        ).join("")
+    );
 }
 
-/* =========================================
-   MENSAGENS
-========================================= */
+// 19. MENSAGENS
 
 function telaMensagens() {
-    const mensagens = carregar("mensagens", []);
+    const mensagens = ler("mensagens");
 
-    return `
-        ${tituloPagina(
-            "Mensagens",
-            "Simulação de comunicação acadêmica."
-        )}
-
+    return cabecalho(
+        "Mensagens",
+        "Conversa demonstrativa, sem envio real."
+    ) + `
         <div class="row g-3">
             <div class="col-lg-6">
-                ${card(
-                    "Nova mensagem",
-                    `
-                        <form id="formMensagem">
-
-                            <label class="form-label">
-                                Disciplina
-                            </label>
-
-                            <select
-                                id="mensagemDisciplina"
-                                class="form-select mb-3"
-                            >
-                                ${disciplinas.map(d => `
-                                    <option>${d.nome}</option>
-                                `).join("")}
-                            </select>
-
-                            <label class="form-label">
-                                Assunto
-                            </label>
-
-                            <input
-                                id="mensagemAssunto"
-                                class="form-control mb-3"
-                                maxlength="80"
-                                required
-                            >
-
-                            <label class="form-label">
-                                Mensagem
-                            </label>
-
-                            <textarea
-                                id="mensagemTexto"
-                                class="form-control mb-3"
-                                rows="4"
-                                maxlength="800"
-                                required
-                            ></textarea>
-
-                            <button class="btn btn-primary">
-                                Salvar mensagem
-                            </button>
-
-                        </form>
-                    `
-                )}
-            </div>
-
-            <div class="col-lg-6">
-                ${card(
-                    "Mensagens salvas",
-                    mensagens.map(m =>
-                        linha(
-                            protegerHTML(m.assunto),
-                            protegerHTML(m.disciplina),
-                            '<span class="badge-soft">Local</span>'
-                        )
-                    ).join("") || "<p>Nenhuma mensagem salva.</p>"
-                )}
-            </div>
-        </div>
-    `;
-}
-
-/* =========================================
-   MATERIAIS
-========================================= */
-
-function telaMateriais() {
-    return `
-        ${tituloPagina(
-            "Materiais de estudo",
-            "Materiais ilustrativos vinculados às atividades."
-        )}
-
-        ${card(
-            "Materiais disponíveis",
-            atividades.map(a =>
-                linha(
-                    a.material,
-                    a.disciplina,
-                    '<span class="badge-soft">Demonstrativo</span>'
-                )
-            ).join("")
-        )}
-    `;
-}
-
-/* =========================================
-   PERFIL
-========================================= */
-
-function telaPerfil() {
-    return `
-        ${tituloPagina(
-            "Meu perfil",
-            "Dados e preferências demonstrativas."
-        )}
-
-        <div class="row g-3">
-            <div class="col-lg-6">
-                ${card(
-                    "Dados do estudante",
-                    `
-                        <p><strong>Nome:</strong> ${estudante.nome}</p>
-                        <p><strong>Matrícula:</strong> ${estudante.matricula}</p>
-                        <p><strong>Curso:</strong> ${estudante.curso}</p>
-                    `
-                )}
-            </div>
-
-            <div class="col-lg-6">
-                ${card(
-                    "Preferências",
-                    `
-                        <label for="tema" class="form-label">
-                            Aparência
+                ${cartao("Nova mensagem", `
+                    <form id="formMensagem">
+                        <label for="mensagemDisciplina" class="form-label">
+                            Disciplina
                         </label>
 
-                        <select id="tema" class="form-select">
-                            <option value="claro">Padrão claro</option>
-                            <option value="contraste">Alto contraste</option>
+                        <select id="mensagemDisciplina" class="form-select mb-3">
+                            ${disciplinas.map(d => `
+                                <option>${d.nome}</option>
+                            `).join("")}
                         </select>
-                    `
+
+                        <label for="mensagemAssunto" class="form-label">
+                            Assunto
+                        </label>
+
+                        <input id="mensagemAssunto"
+                               class="form-control mb-3"
+                               maxlength="80"
+                               required>
+
+                        <label for="mensagemTexto" class="form-label">
+                            Mensagem
+                        </label>
+
+                        <textarea id="mensagemTexto"
+                                  class="form-control mb-3"
+                                  rows="4"
+                                  maxlength="800"
+                                  required></textarea>
+
+                        <button class="btn btn-primary">
+                            Salvar mensagem
+                        </button>
+                    </form>
+                `)}
+            </div>
+
+            <div class="col-lg-6">
+                ${cartao("Mensagens salvas",
+                    mensagens.map(m =>
+                        linha(
+                            escapar(m.assunto),
+                            escapar(m.disciplina),
+                            `<span class="badge-soft">Local</span>`
+                        )
+                    ).join("") || "Nenhuma mensagem salva."
                 )}
             </div>
         </div>
     `;
 }
 
-/* =========================================
-   REGISTRO DAS TELAS
-========================================= */
+// 20. MATERIAIS
 
-const telas = {
-    dashboard: telaDashboard,
+function telaMateriais() {
+    return cabecalho(
+        "Materiais de estudo",
+        "Materiais ilustrativos, sem arquivos anexados."
+    ) + cartao("Materiais",
+        atividades.map(a =>
+            linha(
+                a.material,
+                a.disciplina,
+                `<span class="badge-soft">Exemplo</span>`
+            )
+        ).join("")
+    );
+}
+
+// 21. PERFIL
+
+function telaPerfil() {
+    return cabecalho(
+        "Meu perfil",
+        "Dados demonstrativos."
+    ) + `
+        <div class="row g-3">
+            <div class="col-lg-6">
+                ${cartao("Dados do estudante", `
+                    <p><b>Nome:</b> ${aluno.nome}</p>
+                    <p><b>Matrícula:</b> ${aluno.matricula}</p>
+                    <p><b>Curso:</b> ${aluno.curso}</p>
+                `)}
+            </div>
+
+            <div class="col-lg-6">
+                ${cartao("Preferências", `
+                    <label for="tema" class="form-label">
+                        Aparência
+                    </label>
+
+                    <select id="tema" class="form-select">
+                        <option value="claro">Padrão claro</option>
+                        <option value="contraste"
+                            ${localStorage.getItem("bf_tema") === "contraste" ? "selected" : ""}>
+                            Alto contraste
+                        </option>
+                    </select>
+                `)}
+            </div>
+        </div>
+    `;
+}
+
+// 22. ASSOCIA CADA PÁGINA À SUA FUNÇÃO
+
+const paginas = {
+    dashboard: dashboard,
     disciplinas: telaDisciplinas,
     grade: telaGrade,
     notas: telaNotas,
@@ -1009,151 +734,138 @@ const telas = {
     perfil: telaPerfil
 };
 
-/* =========================================
-   EVENTOS DOS MÓDULOS
-========================================= */
+// 23. MOSTRA A PÁGINA ESCOLHIDA
 
-const conteudo = document.getElementById("content");
+function mostrar(pagina) {
+    elemento("content").innerHTML = paginas[pagina]();
 
-conteudo.addEventListener("click", function (evento) {
-    const botao = evento.target.closest("[data-action]");
+    elemento("breadcrumb").textContent =
+        menu.find(item => item[0] === pagina)[1];
 
-    if (!botao) {
-        return;
+    document.querySelectorAll("[data-pagina]").forEach(function (botao) {
+        botao.classList.toggle(
+            "active",
+            botao.dataset.pagina === pagina
+        );
+    });
+
+    fecharMenu();
+    window.scrollTo(0, 0);
+}
+
+// 24. BOTÕES DE REVISÃO E COMUNICADOS
+
+elemento("content").addEventListener("click", function (evento) {
+    const revisar = evento.target.closest("[data-revisar]");
+    const lerComunicado = evento.target.closest("[data-ler]");
+
+    if (revisar) {
+        mostrar("revisao");
+
+        elemento("disciplinaRevisao").value =
+            revisar.dataset.revisar;
     }
 
-    const acao = botao.dataset.action;
-    const id = botao.dataset.id;
+    if (lerComunicado) {
+        const lidos = ler("lidos");
 
-    if (acao === "revisar") {
-        navegar("revisao");
+        lidos.push(Number(lerComunicado.dataset.ler));
 
-        document.getElementById("disciplinaRevisao")
-            .value = id;
-    }
-
-    if (acao === "ler") {
-        const lidos = carregar("comunicadosLidos", []);
-        const numero = Number(id);
-
-        if (!lidos.includes(numero)) {
-            lidos.push(numero);
-        }
-
-        salvar("comunicadosLidos", lidos);
-        navegar("comunicados");
+        guardar("lidos", [...new Set(lidos)]);
+        mostrar("comunicados");
     }
 });
 
-conteudo.addEventListener("change", function (evento) {
-    const campo = evento.target;
+// 25. ATIVIDADES E TEMA
 
-    if (campo.matches("[data-tarefa]")) {
-        const id = Number(campo.dataset.tarefa);
+elemento("content").addEventListener("change", function (evento) {
 
-        let concluidas = atividadesConcluidas();
+    if (evento.target.matches("[data-tarefa]")) {
+        const id = Number(evento.target.dataset.tarefa);
 
-        concluidas = concluidas.filter(
-            tarefa => tarefa !== id
-        );
+        const concluidas = ler("concluidas").filter(function (item) {
+            return item !== id;
+        });
 
-        if (campo.checked) {
+        if (evento.target.checked) {
             concluidas.push(id);
         }
 
-        salvar("concluidas", concluidas);
-        navegar("atividades");
+        guardar("concluidas", concluidas);
+        mostrar("atividades");
     }
 
-    if (campo.id === "tema") {
-        const contraste = campo.value === "contraste";
+    if (evento.target.id === "tema") {
+        const contraste = evento.target.value === "contraste";
 
         document.body.classList.toggle(
             "high-contrast",
             contraste
         );
 
-        salvar("tema", campo.value);
+        localStorage.setItem("bf_tema", evento.target.value);
     }
 });
 
-conteudo.addEventListener("submit", function (evento) {
+// 26. FORMULÁRIOS
+
+elemento("content").addEventListener("submit", function (evento) {
     evento.preventDefault();
 
+    // Solicitação de revisão de faltas
     if (evento.target.id === "formRevisao") {
-        const id = document
-            .getElementById("disciplinaRevisao")
-            .value;
-
-        const justificativa = document
-            .getElementById("justificativa")
-            .value.trim();
+        const id = elemento("disciplinaRevisao").value;
+        const justificativa = elemento("justificativa").value.trim();
 
         if (!justificativa) {
             return;
         }
 
-        const disciplina = disciplinas.find(
-            d => d.id === id
-        );
+        const nome = disciplinas.find(function (d) {
+            return d.id === id;
+        }).nome;
 
-        const protocolos = carregar("protocolos", []);
+        const protocolos = ler("protocolos");
 
         protocolos.unshift({
             numero: "BF-" + Date.now(),
-            disciplina: disciplina.nome,
-            justificativa: justificativa,
-            status: "Pendente"
+            disciplina: nome,
+            justificativa: justificativa
         });
 
-        salvar("protocolos", protocolos);
-        navegar("revisao");
+        guardar("protocolos", protocolos);
+        mostrar("revisao");
 
-        notificar("Protocolo fictício registrado.");
+        aviso("Protocolo demonstrativo registrado.");
     }
 
+    // Mensagem demonstrativa
     if (evento.target.id === "formMensagem") {
-        const disciplina = document
-            .getElementById("mensagemDisciplina")
-            .value;
-
-        const assunto = document
-            .getElementById("mensagemAssunto")
-            .value.trim();
-
-        const texto = document
-            .getElementById("mensagemTexto")
-            .value.trim();
+        const assunto = elemento("mensagemAssunto").value.trim();
+        const texto = elemento("mensagemTexto").value.trim();
 
         if (!assunto || !texto) {
             return;
         }
 
-        const mensagens = carregar("mensagens", []);
+        const mensagens = ler("mensagens");
 
         mensagens.unshift({
-            disciplina: disciplina,
+            disciplina: elemento("mensagemDisciplina").value,
             assunto: assunto,
             texto: texto
         });
 
-        salvar("mensagens", mensagens);
-        navegar("mensagens");
+        guardar("mensagens", mensagens);
+        mostrar("mensagens");
 
-        notificar("Mensagem salva localmente.");
+        aviso("Mensagem salva neste navegador.");
     }
 });
 
-/* =========================================
-   INICIALIZAÇÃO
-========================================= */
+// 27. APLICA A PREFERÊNCIA SALVA
 
-criarMenu();
-
-if (carregar("tema", "claro") === "contraste") {
-    document.body.classList.add("high-contrast");
-}
-
-if (carregar("sessao", false)) {
-    abrirAplicacao();
-}
+document.body.classList.toggle(
+    "high-contrast",
+    localStorage.getItem("bf_tema") === "contraste"
+);
